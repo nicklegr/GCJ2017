@@ -88,8 +88,11 @@ cases = readline().to_i
   runs[n] = 1
   max_key = n
 
+hist = Hash.new(0)
+
   last_min, last_max = [-1, -1]
   for i in 0...k
+
 # ppd runs
     while runs[max_key] == 0
       runs.delete(max_key)
@@ -99,7 +102,7 @@ cases = readline().to_i
 
     runs[max_key] -= 1
     run = max_key
-
+hist[run] += 1
 # ppd run
     raise if run <= 0
 
@@ -123,6 +126,7 @@ cases = readline().to_i
     end
   end
 
+ppd hist
   puts "Case ##{case_index}: #{last_max} #{last_min}"
 
   # progress
