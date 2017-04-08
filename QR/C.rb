@@ -83,20 +83,24 @@ cases = readline().to_i
 
 (1 .. cases).each do |case_index|
   n, k = ris
-  arr = [n]
+
+  runs = Hash.new(0)
+  runs[n] = 1
+  max_key = n
 
   last_min, last_max = [-1, -1]
   for i in 0...k
-    a = arr[i]
-    b = arr[i+1] || 0
-
-    if a < b
-      # swap
-      arr[i], arr[i+1] = arr[i+1], arr[i]
+# ppd runs
+    while runs[max_key] == 0
+      runs.delete(max_key)
+      max_key = runs.keys.max
+      raise if !max_key
     end
 
-    run = arr[i]
-ppd run
+    runs[max_key] -= 1
+    run = max_key
+
+# ppd run
     raise if run <= 0
 
     if (run & 1) != 0
@@ -110,15 +114,13 @@ ppd run
     if run == 1
       0
     elsif run == 2
-      arr.push(run/2)
+      runs[run/2] += 1
     elsif (run & 1) != 0
-      arr.push(run/2, run/2)
+      runs[run/2] += 2
     else
-      arr.push(run/2, run/2-1)
+      runs[run/2] += 1
+      runs[run/2-1] += 1
     end
-
-    arr.sort!
-    arr.reverse!
   end
 
   puts "Case ##{case_index}: #{last_max} #{last_min}"
