@@ -86,47 +86,57 @@ cases = readline().to_i
 
   runs = Hash.new(0)
   runs[n] = 1
-  max_key = n
-
-hist = Hash.new(0)
 
   last_min, last_max = [-1, -1]
-  for i in 0...k
 
-# ppd runs
-    while runs[max_key] == 0
-      runs.delete(max_key)
-      max_key = runs.keys.max
-      raise if !max_key
-    end
-
-    runs[max_key] -= 1
-    run = max_key
-hist[run] += 1
-# ppd run
-    raise if run <= 0
-
-    if (run & 1) != 0
-      last_min = run / 2
-      last_max = run / 2
+  loop do
+    sum = runs.values.inject(:+)
+    if sum < k
+      k -= sum
     else
-      last_min = run / 2 - 1
-      last_max = run / 2
+      arr = runs.keys.sort.reverse
+      run =
+        if arr.size == 1
+          arr[0]
+        else
+          raise if arr.size != 2
+          if k <= runs[arr[0]]
+            arr[0]
+          else
+            arr[1]
+          end
+        end
+
+      if (run & 1) != 0
+        last_min = run / 2
+        last_max = run / 2
+      else
+        last_min = run / 2 - 1
+        last_max = run / 2
+      end
+
+      break
     end
 
-    if run == 1
-      0
-    elsif run == 2
-      runs[run/2] += 1
-    elsif (run & 1) != 0
-      runs[run/2] += 2
-    else
-      runs[run/2] += 1
-      runs[run/2-1] += 1
+    step = Hash.new(0)
+
+    runs.keys.each do |j|
+      if j == 1
+        0
+      elsif j == 2
+        step[1] += runs[j]
+      elsif (j & 1) != 0
+        step[j/2] += runs[j] * 2
+      else
+        step[j/2] += runs[j]
+        step[j/2-1] += runs[j]
+      end
     end
+
+    runs = step
+ppd runs
   end
 
-ppd hist
   puts "Case ##{case_index}: #{last_max} #{last_min}"
 
   # progress
