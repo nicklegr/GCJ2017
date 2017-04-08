@@ -96,6 +96,7 @@ cases = readline().to_i
     end
 
     run = arr[i]
+ppd run
     raise if run <= 0
 
     if (run & 1) != 0
@@ -115,6 +116,9 @@ cases = readline().to_i
     else
       arr.push(run/2, run/2-1)
     end
+
+    arr.sort!
+    arr.reverse!
   end
 
   puts "Case ##{case_index}: #{last_max} #{last_min}"
