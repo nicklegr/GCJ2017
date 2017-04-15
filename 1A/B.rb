@@ -98,7 +98,7 @@ ppd paks
 
   max_serve = []
   paks.each_with_index{|e, i|
-    max_serve << e.max.to_i / (recipe[i]*0.9).ceil
+    max_serve << ((e.max * 0.9).floor) / (recipe[i])
   }
 ppd max_serve
   max_serve = max_serve.min
@@ -122,7 +122,9 @@ ppd max_serve
     if suc > 0
       total += suc
       paks.each_with_index do |e, i|
-        paks[i] = e - sucss[i]
+        sucss[i].each do |d|
+          paks[i].delete_at(paks[i].index(d))
+        end
       end
     end
 ppd paks
