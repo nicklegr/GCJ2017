@@ -110,7 +110,7 @@ ppd max_serve
     sucss = []
     paks.each_with_index do |e, i|
       sucs = e.select{ |f|
-        (recipe[i]*0.9).ceil * c <= f && f <= (recipe[i]*1.1).floor * c
+        (recipe[i] * c * 0.9).ceil <= f && f <= (recipe[i] * c * 1.1).floor
       }
       sucss << sucs
 
