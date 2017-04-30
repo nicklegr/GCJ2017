@@ -92,50 +92,31 @@ cases = readline().to_i
     cakes << e
   end
 
-  cakes.sort_by! do |e|
-    e[2]
+  cakes.sort! do |a, b|
+    a[2] <=> b[2]
   end
   cakes.reverse!
 
+ppd case_index
+ppd n, k
 ppd cakes
 
   max = 0
-  # for bot in 0...n
-  #   # 表面積
-  #   v = Math::PI * (cakes[bot][0] ** 2)
-  #   v += 2 * Math::PI * cakes[bot][2]
+  for bot in 0...n
+    # 表面積
+    v = Math::PI * (cakes[bot][0] ** 2)
+    v += 2 * Math::PI * cakes[bot][2]
 
-  #   c = 1
-  #   rhs = 0
-  #   cur_r = cakes[bot][0]
-  #   for i in 0...n
-  #     next if bot == i
-  #     break if c >= k
-  #     if cakes[i][0] <= cur_r
-  #       rhs += cakes[i][2]
-  #       c += 1
-  #       cur_r = cakes[i][0]
-  #     end
-  #   end
-
-  #   v += 2 * Math::PI * rhs
-
-  #   if max < v
-  #     max = v
-  #   end
-  # end
-
-  cakes.combination(k) do |cake|
-    cake.sort_by! do |e|
-      e[0]
-    end
-    cake.reverse!
-
-    v = Math::PI * (cake[0][0] ** 2)
+    c = 1
     rhs = 0
-    cake.each do |e|
-      rhs += e[2]
+    for i in 0...n
+      next if bot == i
+      break if c >= k
+
+      rhs += cakes[i][2]
+      c += 1
     end
+
     v += 2 * Math::PI * rhs
 
     if max < v
