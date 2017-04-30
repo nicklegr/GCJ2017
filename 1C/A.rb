@@ -82,9 +82,50 @@ t_start = Time.now
 cases = readline().to_i
 
 (1 .. cases).each do |case_index|
-  # write your code here
+  n, k = ris
 
-  puts "Case ##{case_index}: #{answer}"
+  # Ri, Hi, R*H
+  cakes = []
+  n.times do
+    e = ris
+    e << (e[0] * e[1])
+    cakes << e
+  end
+
+  cakes.sort_by! do |e|
+    e[2]
+  end
+  cakes.reverse!
+
+ppd cakes
+
+  max = 0
+  for bot in 0...n
+    # 表面積
+    v = Math::PI * (cakes[bot][0] ** 2)
+    v += 2 * Math::PI * cakes[bot][2]
+
+    c = 1
+    rhs = 0
+    cur_r = cakes[bot][0]
+    for i in 0...n
+      next if bot == i
+      break if c >= k
+      if cakes[i][0] <= cur_r
+        rhs += cakes[i][2]
+        c += 1
+        cur_r = cakes[i][0]
+      end
+    end
+
+    v += 2 * Math::PI * rhs
+
+    if max < v
+      max = v
+    end
+  end
+
+  puts "Case ##{case_index}: #{max}"
 
   # progress
   trigger = 
